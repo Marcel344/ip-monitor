@@ -6,7 +6,8 @@ every new ip added and stores all of them in the "devices" folder that is automa
 IPs from there. 
 
 
-# Installation 
+## Installation 
 
 pip3 install -r Requirements.txt
+
 python3 main.py
