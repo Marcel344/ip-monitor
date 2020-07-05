@@ -12,12 +12,19 @@ class Driver (Qt.QWidget):
     def __init__ (self):
         super(Driver, self).__init__()
         uic.loadUi('ui/main.ui', self)
+        self.setWindowFlags(QtCore.Qt.WindowCloseButtonHint)
+        self.setStyleSheet('background : #444444;')
+        self.listWidget.setStyleSheet('background : #878683')
+        self.infoBox.setStyleSheet('background : #bebebe; padding : 10px; border 1px solid black; border-radius : 10px')
+        self.removeBtn.setStyleSheet("QPushButton {background-color : #9b9a92; border : 1px solid #8d989f; color white; border-radius : 10px}")
+        self.addBtn.setStyleSheet("QPushButton {background-color : #9b9a92; border : 1px solid #8d989f; color white; border-radius : 10px}")
         self.show()
         self.setWindowTitle('IP Monitor')
         self.addBtn.clicked.connect(self.addDevice)
         self.removeBtn.clicked.connect(self.removeDevice)
         self.infoBox.setVisible(False)
         self.connections = []
+        self.connectionMap = {}
         self.listWidget.currentRowChanged.connect(self.showDeviceInfo)
         if (not os.path.isdir('devices')):
             os.mkdir('devices')
@@ -38,7 +45,7 @@ class Driver (Qt.QWidget):
         jsonFile = open(f'devices/{name}.json', 'r')
         data = json.load(jsonFile)
         connection = connectionThread(data['Address'], data['Name'])
-        connection.connectedSignal.connect(self.updateConnected)
+        connection.connectionSignal.connect(self.updateConnetion)
         self.populateList()
 
     def showDeviceInfo(self, index):
@@ -48,6 +55,10 @@ class Driver (Qt.QWidget):
             data = json.load(jsonFile)
             self.nameLabel.setText(data['Name'])
             self.ipLabel.setText(data['Address'])
+            if self.connectionMap.get(data['Name']):
+                self.statusLbl.setText('Connected')
+            else :
+                self.statusLbl.setText('Disconnected')
             self.infoBox.setVisible(True)
 
     def removeDevice(self):
@@ -57,6 +68,7 @@ class Driver (Qt.QWidget):
         self.infoBox.setVisible(False)
 
     def populateList(self):
+        self.connections = []
         self.listWidget.clear()
         devices = os.listdir('devices')
         for device in devices :
@@ -69,22 +81,28 @@ class Driver (Qt.QWidget):
                 item.setBackground(color)
                 self.listWidget.addItem(item)
                 connection = connectionThread(data['Address'], data['Name'])
-                connection.connectedSignal.connect(self.updateConnected)
+                connection.connectionSignal.connect(self.updateConnetion)
                 connection.start()
                 self.connections.append(connection)
-
-    def updateConnected(self, device):
-        listElement = self.listWidget.findItems(device, QtCore.Qt.MatchExactly)
-        if len(listElement) > 0:
+    
+    def updateConnetion(self, params):
+        listElement = self.listWidget.findItems(params[0], QtCore.Qt.MatchExactly)
+        if len(listElement) > 0 and params[1]:
             color = Qt.QColor()
             color.setRgb(195,236,192)
             listElement[0].setBackground(color)
+            self.connectionMap[params[0]] = 1
+        
+        if len(listElement) > 0 and not params[1]:
+            color = Qt.QColor()
+            color.setRgb(236,192,192)
+            listElement[0].setBackground(color)
+            self.connectionMap[params[0]] = 0
 
 
-class connectionThread (QThread): # this is a Thread class responsible for checking internet connection
+class connectionThread (QThread): # this is a Thread class responsible for checking ping connection
 
-    connectedSignal = QtCore.pyqtSignal(str, name="strSignal") # this is a signal that will trigger the connected function in the main file
-
+    connectionSignal = QtCore.pyqtSignal(list) 
     def __init__(self, address, name):
         super(connectionThread, self).__init__()
         self.address = address
@@ -94,8 +112,9 @@ class connectionThread (QThread): # this is a Thread class responsible for check
         while True : # run forever
             param = '-n' if platform.system().lower()=='windows' else '-c'
             command = ['ping', param, '1', self.address]
-            if (subprocess.call(command) == 0):
-                self.connectedSignal.emit(self.name)
+            connected = (subprocess.call(command) == 0)
+            params = [self.name, connected]
+            self.connectionSignal.emit(params)
             time.sleep(2) # Check for connection every 2 seconds
 
 class AddDeviceWindow (QThread) :
@@ -106,6 +125,10 @@ class AddDeviceWindow (QThread) :
         QThread.__init__(self)
         self.Window = Qt.QWidget()
         uic.loadUi('ui/addDevice.ui', self.Window)
+        self.Window.setStyleSheet('background : #444444;')
+        self.Window.addBtn.setStyleSheet("QPushButton {background-color : #9b9a92; border : 1px solid #8d989f; color white; border-radius : 10px}")
+        self.Window.name.setStyleSheet('background-color: #bfbfba')
+        self.Window.ipAddress.setStyleSheet('background-color: #bfbfba')
         self.Window.addBtn.clicked.connect(self.run)
 
     def run(self):

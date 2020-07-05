@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>401</width>
-    <height>300</height>
+    <width>404</width>
+    <height>298</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,7 +32,7 @@
      <x>140</x>
      <y>20</y>
      <width>251</width>
-     <height>271</height>
+     <height>161</height>
     </rect>
    </property>
    <widget class="QWidget" name="gridLayoutWidget">
@@ -41,26 +41,12 @@
       <x>0</x>
       <y>0</y>
       <width>251</width>
-      <height>271</height>
+      <height>161</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="3" column="0" colspan="3">
-      <widget class="QPushButton" name="removeBtn">
-       <property name="text">
-        <string>Remove</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Name </string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="ipLabel">
+     <item row="2" column="1">
+      <widget class="QLabel" name="statusLbl">
        <property name="text">
         <string/>
        </property>
@@ -69,21 +55,7 @@
      <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>IP Adress </string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
-      <widget class="QLabel" name="nameLabel">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="2">
-      <widget class="QLabel" name="statusLbl">
-       <property name="text">
-        <string/>
+        <string>IP / Domain </string>
        </property>
       </widget>
      </item>
@@ -95,23 +67,23 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLabel" name="label_4">
+      <widget class="QLabel" name="ipLabel">
        <property name="text">
-        <string>:</string>
+        <string/>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLabel" name="label_5">
+      <widget class="QLabel" name="nameLabel">
        <property name="text">
-        <string>:</string>
+        <string/>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QLabel" name="label_6">
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>:</string>
+        <string>Name </string>
        </property>
       </widget>
      </item>
@@ -126,6 +98,19 @@
      <width>121</width>
      <height>231</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="removeBtn">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>260</y>
+     <width>251</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Remove</string>
    </property>
   </widget>
  </widget>

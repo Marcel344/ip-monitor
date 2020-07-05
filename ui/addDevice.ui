@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>379</width>
-    <height>120</height>
+    <width>399</width>
+    <height>130</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QPushButton" name="addBtn">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>80</y>
+     <x>160</x>
+     <y>90</y>
      <width>141</width>
      <height>31</height>
     </rect>
@@ -42,7 +42,7 @@
   <widget class="QTextEdit" name="ipAddress">
    <property name="geometry">
     <rect>
-     <x>86</x>
+     <x>100</x>
      <y>50</y>
      <width>283</width>
      <height>25</height>
@@ -58,7 +58,7 @@
   <widget class="QTextEdit" name="name">
    <property name="geometry">
     <rect>
-     <x>86</x>
+     <x>100</x>
      <y>15</y>
      <width>283</width>
      <height>25</height>
@@ -76,12 +76,12 @@
     <rect>
      <x>10</x>
      <y>50</y>
-     <width>66</width>
+     <width>81</width>
      <height>25</height>
     </rect>
    </property>
    <property name="text">
-    <string>IP Address</string>
+    <string>IP or Domain</string>
    </property>
   </widget>
  </widget>
