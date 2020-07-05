@@ -1,0 +1,4 @@
+PyQT5==5.14.1
+json
+platform
+subprocess
